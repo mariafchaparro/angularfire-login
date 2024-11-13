@@ -1,0 +1,46 @@
+@if (!loading) {
+    <div class="flex justify-center items-center h-dvh w-dvw ">
+        <section class="flex flex-col items-center justify-center bg-white p-8 gap-10">
+            <img src="sign-up.png" alt="sign-up" class="w-12">
+
+            <h1 class="text-3xl font-bold">Sign Up</h1>
+    
+            <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-6 w-80">
+                
+                <input id="email" type="email" placeholder="Email" class="border-b-2 rounded-sm p-3" formControlName="email"> 
+                <!-- Email errrors -->
+                @if (signupForm.get('email')?.hasError('required') && signupForm.get('email')?.touched) {
+                    <span class="text-sm text-red-700 ml-2">Email required</span>
+                }@else if (signupForm.get('email')?.hasError('email') && signupForm.get('email')?.touched) {
+                    <span class="text-sm text-red-700 ml-2">Invalid email</span>
+                }
+                
+                <input id="password" [type]="type" (keyup)="verifyPassword()" placeholder="Password" class="border-b-2 rounded-sm p-3" formControlName="password">
+                <!-- Password errrors -->
+                @if (signupForm.get('password')?.hasError('required') && signupForm.get('password')?.touched) {
+                    <span class="text-sm text-red-700 ml-2">Password required</span>
+                }@else if (signupForm.get('password')?.hasError('minlength') && signupForm.get('password')?.touched) {
+                    <span class="text-sm text-red-700 ml-2">Password must be at least 6 characters long</span>
+                }@else if (!validPassword && signupForm.get('password')?.touched) {
+                    <span class="text-sm text-red-700 ml-2">Password must have: An special character, a number and a uppercase letter</span>
+                }
+
+                <label for="show-password" class="text-sm flex items-center gap-1">
+                    <input id="show-password" type="checkbox" (click)="showPassword()">
+                    Show password
+                </label>
+
+                <button type="submit" [disabled]="!signupForm.valid" class="bg-blue-500 p-2 rounded-lg text-white font-bold mt-4 disabled:opacity-50">Sign Up</button>
+            </form>
+    
+            <div>
+                <p>Do you already have an account? <a routerLink="/login" class="text-blue-500 hover:underline">Log In</a></p>
+            </div>
+        </section>
+        
+    </div>    
+}@else {
+    <div class="flex justify-center items-center h-dvh">
+        <app-spinner></app-spinner>
+    </div>
+}

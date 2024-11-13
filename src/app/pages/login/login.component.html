@@ -1,0 +1,45 @@
+@if (!loading) {
+    <div class="flex justify-center items-center h-dvh w-dvw">
+        <section class="flex flex-col items-center justify-center bg-white p-8 gap-10">
+            <img src="log-in.png" alt="log-in" class="w-12">
+            
+            <h1 class="text-3xl font-bold">Log In</h1>
+    
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-6 w-80">
+                <input id="email" type="email" placeholder="Email" class="border-b-2 rounded-sm p-3" formControlName="email">
+                <!-- Email errrors -->
+                @if (loginForm.get('email')?.hasError('required') && loginForm.get('email')?.touched) {
+                    <span class="text-sm text-red-700 ml-2">Email required</span>
+                }
+                @if (loginForm.get('email')?.hasError('email') && loginForm.get('email')?.touched) {
+                    <span class="text-sm text-red-700 ml-2">Invalid email</span>
+                }
+
+                <input id="password" [type]="type" placeholder="Password" class="border-b-2 rounded-sm p-3" formControlName="password">
+                <!-- Password errror -->
+                @if (loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched) {
+                    <span class="text-sm text-red-700 ml-2">Password required</span>
+                }
+
+                <div class="flex justify-between items-center">
+                    <label for="show-password" class="text-sm flex items-center gap-1">
+                        <input id="show-password" type="checkbox" (click)="showPassword()">
+                        Show password
+                    </label>
+
+                    <a routerLink="/recover-password" class="text-blue-500 hover:underline self-end text-sm">Forgot password?</a>
+                </div>
+
+                <button type="submit" [disabled]="!loginForm.valid" class="bg-blue-500 p-2 rounded-lg text-white font-bold mt-4 disabled:opacity-50">Log In</button>
+            </form>
+    
+            <div>
+                <p>Don't you have an account? <a routerLink="/signup" class="text-blue-500 hover:underline">Sign Up</a></p>
+            </div>
+        </section>
+    </div>    
+}@else {
+    <div class="flex justify-center items-center h-dvh">
+        <app-spinner></app-spinner>
+    </div>
+}
