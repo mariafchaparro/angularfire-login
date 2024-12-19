@@ -1,7 +1,7 @@
 @if (!loading) {
-    <div class="flex justify-center items-center h-dvh w-dvw">
+    <div class="flex justify-center items-center h-dvh w-dvw bg-white">
         <section class="flex flex-col items-center justify-center bg-white p-8 gap-10">
-            <img src="log-in.png" alt="log-in" class="w-12">
+            <img src="log-in.webp" alt="log-in" class="w-12">
             
             <h1 class="text-3xl font-bold">Log In</h1>
     
@@ -10,8 +10,7 @@
                 <!-- Email errrors -->
                 @if (loginForm.get('email')?.hasError('required') && loginForm.get('email')?.touched) {
                     <span class="text-sm text-red-700 ml-2">Email required</span>
-                }
-                @if (loginForm.get('email')?.hasError('email') && loginForm.get('email')?.touched) {
+                }@else if (loginForm.get('email')?.hasError('email') && loginForm.get('email')?.touched) {
                     <span class="text-sm text-red-700 ml-2">Invalid email</span>
                 }
 
@@ -39,7 +38,7 @@
         </section>
     </div>    
 }@else {
-    <div class="flex justify-center items-center h-dvh">
+    <div class="flex justify-center items-center h-dvh bg-white">
         <app-spinner></app-spinner>
     </div>
 }

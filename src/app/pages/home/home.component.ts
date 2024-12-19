@@ -16,7 +16,7 @@ export class HomeComponent {
   
   onClick() {
     this.authService.logout()
-    .then(() => this.router.navigate(['/login']))
-    .catch((err) => console.log(err))
+      .then(() => this.router.navigate(['/login']))
+      .catch((err) => console.log(err))
   }
 }

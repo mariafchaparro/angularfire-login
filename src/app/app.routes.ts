@@ -17,7 +17,6 @@ export const routes: Routes = [
         title: 'Home',
         ...canActivate(() => redirectUnauthorizedTo(['/login']))
     },
-      
     {
         path: 'signup',
         component: SignupComponent,

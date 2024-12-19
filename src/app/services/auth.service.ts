@@ -9,7 +9,6 @@ export class AuthService {
     auth = inject(Auth)
 
     register(email: string, password: string) {
-
         return createUserWithEmailAndPassword(this.auth, email, password)
     }
 
@@ -29,4 +28,3 @@ export class AuthService {
         return validatePassword(this.auth, password)
     }
 }
-

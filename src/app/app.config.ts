@@ -1,10 +1,8 @@
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';
-
 import { routes } from './app.routes';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
-import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideToastr } from 'ngx-toastr';
 
 const firebaseConfig = {
@@ -14,8 +12,7 @@ const firebaseConfig = {
   storageBucket: "angularfire-auth-88896.firebasestorage.app",
   messagingSenderId: "522646551838",
   appId: "1:522646551838:web:54477fe53c58ba6d6a1d0f"
-};
-
+}
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -23,9 +20,8 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
     provideAuth(() => getAuth()),
-    provideAnimations(),
     provideToastr({
-      timeOut: 3000,
+      timeOut: 4000,
       preventDuplicates: true,
     })
   ]

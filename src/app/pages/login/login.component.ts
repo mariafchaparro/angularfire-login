@@ -37,10 +37,10 @@ export class LoginComponent {
     const rawForm = this.loginForm.getRawValue()
 
     this.authService.login(rawForm.email, rawForm.password)
-      .then((res) => {
+      .then(() => {
         this.router.navigate(['/home'])
       })
-      .catch(err => {
+      .catch((err) => {
         this.loading = false
         this.toastr.error(this.errorHandler.errorMessage(err.code),'Error')
       })

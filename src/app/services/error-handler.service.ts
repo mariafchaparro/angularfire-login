@@ -13,9 +13,11 @@ export class ErrorHandlerService {
       case CodeErrorEnum.InvalidEmail:
         return 'Invalid Email'
       case CodeErrorEnum.WeakPassword:
-        return "Password doesn't meet the requirements"
+        return "Weak password"
       case CodeErrorEnum.IncorrectData:
         return 'Incorrect data'
+      case CodeErrorEnum.InvalidPassword:
+        return "Password doesn't meet the requirements"
       default:
         return code
     }
