@@ -10,8 +10,7 @@ import { ErrorHandlerService } from '../../services/error-handler.service';
   selector: 'app-signup',
   standalone: true,
   imports: [ReactiveFormsModule, RouterLink, SpinnerComponent],
-  templateUrl: './signup.component.html',
-  styleUrl: './signup.component.css'
+  templateUrl: './signup.component.html'
 })
 export class SignupComponent {
 
@@ -45,7 +44,6 @@ export class SignupComponent {
       .catch((err) => {
         this.loading = false
         this.toastr.error(this.errorHandler.errorMessage(err.code), 'Error')
-        console.log(err.code)
       })
   }
 

@@ -10,8 +10,7 @@ import { ErrorHandlerService } from '../../services/error-handler.service';
   selector: 'app-recover-password',
   standalone: true,
   imports: [ReactiveFormsModule, RouterLink, SpinnerComponent],
-  templateUrl: './recover-password.component.html',
-  styleUrl: './recover-password.component.css'
+  templateUrl: './recover-password.component.html'
 })
 export class RecoverPasswordComponent {
 

@@ -10,8 +10,7 @@ import { ErrorHandlerService } from '../../services/error-handler.service';
   selector: 'app-login',
   standalone: true,
   imports: [RouterLink, ReactiveFormsModule, SpinnerComponent],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  templateUrl: './login.component.html'
 })
 export class LoginComponent {
 
