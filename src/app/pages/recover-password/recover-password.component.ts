@@ -4,7 +4,7 @@ import { AuthService } from '../../services/auth.service';
 import { Router, RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { SpinnerComponent } from '../../shared/spinner/spinner.component';
-import { ErrorHandlerService } from '../../services/error-handler.service';
+import {errorMessage} from '../../utils/error-handler';
 
 @Component({
   selector: 'app-recover-password',
@@ -17,7 +17,6 @@ export class RecoverPasswordComponent {
   authService = inject(AuthService)
   router = inject(Router)
   toastr = inject(ToastrService)
-  errorHandler = inject(ErrorHandlerService)
 
   // Spinner 
   loading: boolean = false;
@@ -36,7 +35,7 @@ export class RecoverPasswordComponent {
     })
     .catch(err => {
       this.loading = false
-      this.toastr.error(this.errorHandler.errorMessage(err.code), 'Error')
+      this.toastr.error(errorMessage(err.code), 'Error')
     })
   }
 }
