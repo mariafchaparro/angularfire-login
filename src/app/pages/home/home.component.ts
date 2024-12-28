@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
+import { Auth, signOut } from '@angular/fire/auth';
 import { Router, RouterLink } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -10,11 +10,11 @@ import { AuthService } from '../../services/auth.service';
 })
 export class HomeComponent {
 
-  authService = inject(AuthService)
+  auth = inject(Auth)
   router = inject(Router)
   
   onClick() {
-    this.authService.logout()
+    signOut(this.auth)
       .then(() => this.router.navigate(['/login']))
       .catch((err) => console.log(err))
   }

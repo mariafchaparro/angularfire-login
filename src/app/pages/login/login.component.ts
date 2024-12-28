@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { SpinnerComponent } from '../../shared/spinner/spinner.component';
-import {errorMessage} from '../../utils/error-handler';
+import { errorMessage } from '../../utils/error-handler';
+import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +14,7 @@ import {errorMessage} from '../../utils/error-handler';
 })
 export class LoginComponent {
 
-  authService = inject(AuthService)
+  auth = inject(Auth)
   router = inject(Router)
   toastr = inject(ToastrService)
 
@@ -34,13 +34,13 @@ export class LoginComponent {
     this.loading = true
     const rawForm = this.loginForm.getRawValue()
 
-    this.authService.login(rawForm.email, rawForm.password)
+    signInWithEmailAndPassword(this.auth, rawForm.email, rawForm.password)
       .then(() => {
         this.router.navigate(['/home'])
       })
       .catch((err) => {
         this.loading = false
-        this.toastr.error(errorMessage(err.code),'Error')
+        this.toastr.error(errorMessage(err.code), 'Error')
       })
   }
 

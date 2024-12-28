@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { SpinnerComponent } from "../../shared/spinner/spinner.component";
-import {errorMessage} from '../../utils/error-handler';
+import { errorMessage } from '../../utils/error-handler';
+import { Auth, createUserWithEmailAndPassword,validatePassword } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-signup',
@@ -14,7 +14,7 @@ import {errorMessage} from '../../utils/error-handler';
 })
 export class SignupComponent {
 
-  authService = inject(AuthService)
+  auth = inject(Auth)
   router = inject(Router)
   toastr = inject(ToastrService)
 
@@ -35,7 +35,7 @@ export class SignupComponent {
     this.loading = true
     const formValue = this.signupForm.getRawValue()
 
-    this.authService.register(formValue.email,formValue.password)
+    createUserWithEmailAndPassword(this.auth, formValue.email, formValue.password)
       .then(() => {
         this.toastr.success('The user was registered successfully', 'User registered!')
         this.router.navigate(['/login'])
@@ -57,7 +57,7 @@ export class SignupComponent {
   verifyPassword() {
     const formCurrentValue = this.signupForm.getRawValue()
 
-    this.authService.validatePassword(formCurrentValue.password)
+    validatePassword(this.auth, formCurrentValue.password)
       .then((res) => {
         this.validPassword = res.isValid
       })
