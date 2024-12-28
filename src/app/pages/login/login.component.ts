@@ -45,10 +45,6 @@ export class LoginComponent {
   }
 
   showPassword() {
-    if (this.type === 'password') {
-      this.type = 'text'
-    } else {
-      this.type = 'password'
-    }
+    this.type = this.type === 'password' ? 'text' : 'password'
   }
 }
