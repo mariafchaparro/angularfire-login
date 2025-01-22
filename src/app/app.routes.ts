@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './pages/home/home.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { LoginComponent } from './pages/login/login.component';
-import { canActivate, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
+import { canActivate, redirectLoggedInTo, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
 import { RecoverPasswordComponent } from './pages/recover-password/recover-password.component';
 
 export const routes: Routes = [
@@ -20,12 +20,14 @@ export const routes: Routes = [
     {
         path: 'signup',
         component: SignupComponent,
-        title: 'Sign up'
+        title: 'Sign up',
+        ...canActivate(() => redirectLoggedInTo(['/home']))
     },
     {
         path: 'login',
         component: LoginComponent,
-        title: 'Log in'
+        title: 'Log in',
+        ...canActivate(() => redirectLoggedInTo(['/home']))
     },
     {
         path: 'recover-password',
