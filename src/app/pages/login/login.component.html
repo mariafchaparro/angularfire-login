@@ -8,10 +8,12 @@
             <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="flex flex-col gap-6 w-80">
                 <input id="email" type="email" placeholder="Email" class="border-b-2 rounded-sm p-3" formControlName="email">
                 <!-- Email errrors -->
-                @if (loginForm.get('email')?.hasError('required') && loginForm.get('email')?.touched) {
-                    <span class="text-sm text-red-700 ml-2">Email required</span>
-                }@else if (loginForm.get('email')?.hasError('email') && loginForm.get('email')?.touched) {
-                    <span class="text-sm text-red-700 ml-2">Invalid email</span>
+                @if (loginForm.get('email')?.touched) {
+                    @if (loginForm.get('email')?.hasError('required')) {
+                        <span class="text-sm text-red-700 ml-2">Email required</span>
+                    }@else if (loginForm.get('email')?.hasError('email')) {
+                        <span class="text-sm text-red-700 ml-2">Invalid email</span>
+                    }
                 }
 
                 <input id="password" [type]="type" placeholder="Password" class="border-b-2 rounded-sm p-3" formControlName="password">

@@ -38,7 +38,7 @@ export class SignupComponent {
     createUserWithEmailAndPassword(this.auth, formValue.email, formValue.password)
       .then(() => {
         this.toastr.success('The user was registered successfully', 'User registered!')
-        this.router.navigate(['/login'])
+        this.router.navigate(['/home'])
       })
       .catch((err) => {
         this.loading = false

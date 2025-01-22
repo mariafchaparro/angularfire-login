@@ -9,20 +9,24 @@
                 
                 <input id="email" type="email" placeholder="Email" class="border-b-2 rounded-sm p-3" formControlName="email"> 
                 <!-- Email errrors -->
-                @if (signupForm.get('email')?.hasError('required') && signupForm.get('email')?.touched) {
-                    <span class="text-sm text-red-700 ml-2">Email required</span>
-                }@else if (signupForm.get('email')?.hasError('email') && signupForm.get('email')?.touched) {
-                    <span class="text-sm text-red-700 ml-2">Invalid email</span>
+                @if (signupForm.get('email')?.touched) {
+                    @if (signupForm.get('email')?.hasError('required')) {
+                        <span class="text-sm text-red-700 ml-2">Email required</span>
+                    }@else if (signupForm.get('email')?.hasError('email')) {
+                        <span class="text-sm text-red-700 ml-2">Invalid email</span>
+                    }
                 }
-                
-                <input id="password" [type]="type" (keyup)="verifyPassword()" placeholder="Password" class="border-b-2 rounded-sm p-3" formControlName="password">
+
+                <input id="password" [type]="type" (input)="verifyPassword()" placeholder="Password" class="border-b-2 rounded-sm p-3" formControlName="password">
                 <!-- Password errrors -->
-                @if (signupForm.get('password')?.hasError('required') && signupForm.get('password')?.touched) {
-                    <span class="text-sm text-red-700 ml-2">Password required</span>
-                }@else if (signupForm.get('password')?.hasError('minlength') && signupForm.get('password')?.touched) {
-                    <span class="text-sm text-red-700 ml-2">Password must be at least 6 characters long</span>
-                }@else if (!validPassword && signupForm.get('password')?.touched) {
-                    <span class="text-sm text-red-700 ml-2">Password must have: An special character, a number and a uppercase letter</span>
+                @if (signupForm.get('password')?.touched) {
+                    @if(signupForm.get('password')?.hasError('required')) {
+                        <span class="text-sm text-red-700 ml-2">Password required</span>
+                    }@else if (signupForm.get('password')?.hasError('minlength')) {
+                        <span class="text-sm text-red-700 ml-2">Password must be at least 6 characters long</span>
+                    }@else if(!validPassword) {
+                        <span class="text-sm text-red-700 ml-2">Password must have: An special character, a number and a uppercase letter</span>
+                    }
                 }
 
                 <label for="show-password" class="text-sm flex items-center gap-1">
