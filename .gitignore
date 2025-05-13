@@ -48,3 +48,6 @@ Thumbs.db
 
 # Environment variables
 environments
+
+#Firebase Service Account Key
+serviceAccountKey.json

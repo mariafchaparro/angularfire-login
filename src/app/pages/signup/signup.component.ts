@@ -36,7 +36,23 @@ export class SignupComponent {
     const formValue = this.signupForm.getRawValue()
 
     createUserWithEmailAndPassword(this.auth, formValue.email, formValue.password)
-      .then(() => {
+      .then(async (res) => {
+        const user = res.user
+
+        // Call the backend to assign the default role
+        await fetch('https://TU-BACKEND.onrender.com/assign-default-role', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            uid: user.uid,
+            email: user.email,
+          }), 
+        });
+
+        // Refresh token to get the new claims
+        await user.getIdToken(true);
+
+        
         this.toastr.success('The user was registered successfully', 'User registered!')
         this.router.navigate(['/home'])
       })
