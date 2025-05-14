@@ -40,7 +40,7 @@ export class SignupComponent {
         const user = res.user
 
         // Call the backend to assign the default role
-        await fetch('https://TU-BACKEND.onrender.com/assign-default-role', {
+        await fetch('https://angularfire-backend-roles.onrender.com/assign-default-role', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
