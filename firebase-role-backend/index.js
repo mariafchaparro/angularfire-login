@@ -14,15 +14,21 @@ admin.initializeApp({
 
 // Asign default role based on email domain
 app.post('/assign-default-role', async (req, res) => {
-  const { uid, email } = req.body;
-
-  const role = email.endsWith('@admin.com') ? 'admin' : 'user';
-
-  try {
-    await admin.auth().setCustomUserClaims(uid, { role });
-    return res.send(`Role '${role}' assigned to user ${uid}`);
-  } catch (err) {
-    return res.status(500).send('Error: ' + err.message);
+  const idToken = req.body.idToken;
+  
+  // Verify the ID token and get the user info
+  const claims = await admin.auth().verifyIdToken(idToken)
+  
+  if (typeof claims.email !== 'undefined') {
+    const role = claims.email.endsWith('@admin.com') ? 'admin' : 'user';
+    
+    admin.auth().setCustomUserClaims(claims.uid, { role })
+      .then(() => {
+        return res.status(200).json({status: 'success', role: role, message: `Role ${role} assigned to user ${claims.uid}`});
+      })
+      .catch((err) => {
+        return res.status(500).json({status: 'error', message: 'Error al asignar rol: ' + err.message});
+     })
   }
 });
 

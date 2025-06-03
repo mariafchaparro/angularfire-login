@@ -4,7 +4,8 @@ import { Router, RouterLink } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { SpinnerComponent } from "../../shared/spinner/spinner.component";
 import { errorMessage } from '../../utils/error-handler';
-import { Auth, createUserWithEmailAndPassword,validatePassword } from '@angular/fire/auth';
+import { Auth, createUserWithEmailAndPassword,getIdToken,idToken,validatePassword } from '@angular/fire/auth';
+import { get } from '@angular/fire/database';
 
 @Component({
   selector: 'app-signup',
@@ -38,27 +39,36 @@ export class SignupComponent {
     createUserWithEmailAndPassword(this.auth, formValue.email, formValue.password)
       .then(async (res) => {
         const user = res.user
+        const token = getIdToken(user)
 
         // Call the backend to assign the default role
-        await fetch('https://angularfire-backend-roles.onrender.com/assign-default-role', {
+        const resBack = await fetch('https://angularfire-backend-roles.onrender.com/assign-default-role', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            uid: user.uid,
-            email: user.email,
+            idToken: token,
           }), 
         });
 
+        const data = await resBack.json();
+        console.log(data);
+  
         // Refresh token to get the new claims
         await user.getIdToken(true);
 
-        
+        // Get the role
+        const tokenResult = await user.getIdTokenResult()
+        const role = tokenResult.claims['role']
+
+        console.log('new role', role);
+
         this.toastr.success('The user was registered successfully', 'User registered!')
         this.router.navigate(['/home'])
       })
       .catch((err) => {
         this.loading = false
-        this.toastr.error(errorMessage(err.code), 'Error')
+        this.toastr.error(errorMessage(err.message), 'Error')
+        console.log(err);
       })
   }
 
