@@ -15,20 +15,25 @@ admin.initializeApp({
 // Asign default role based on email domain
 app.post('/assign-default-role', async (req, res) => {
   const idToken = req.body.idToken;
-  
-  // Verify the ID token and get the user info
-  const claims = await admin.auth().verifyIdToken(idToken)
-  
-  if (typeof claims.email !== 'undefined') {
+
+  try {
+    const claims = await admin.auth().verifyIdToken(idToken);
+
+    if (!claims.email) {
+      return res.status(400).json({ status: 'error', message: 'El token no contiene un email válido' });
+    }
+
     const role = claims.email.endsWith('@admin.com') ? 'admin' : 'user';
-    
-    admin.auth().setCustomUserClaims(claims.uid, { role })
-      .then(() => {
-        return res.status(200).json({status: 'success', role: role, message: `Role ${role} assigned to user ${claims.uid}`});
-      })
-      .catch((err) => {
-        return res.status(500).json({status: 'error', message: 'Error al asignar rol: ' + err.message});
-     })
+
+    await admin.auth().setCustomUserClaims(claims.sub, { role });
+
+    return res.status(200).json({
+      status: 'success',
+      role: role,
+      message: `Role ${role} assigned to user ${claims.sub}`
+    });
+  } catch (err) {
+    return res.status(500).json({ status: 'error', message: err.message });
   }
 });
 
