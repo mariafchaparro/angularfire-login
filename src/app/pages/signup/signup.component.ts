@@ -5,7 +5,6 @@ import { ToastrService } from 'ngx-toastr';
 import { SpinnerComponent } from "../../shared/spinner/spinner.component";
 import { errorMessage } from '../../utils/error-handler';
 import { Auth, createUserWithEmailAndPassword,getIdToken,idToken,validatePassword } from '@angular/fire/auth';
-import { get } from '@angular/fire/database';
 
 @Component({
   selector: 'app-signup',
@@ -60,10 +59,9 @@ export class SignupComponent {
         const tokenResult = await user.getIdTokenResult()
         const role = tokenResult.claims['role']
 
-        console.log('new role', role);
-
         this.toastr.success('The user was registered successfully', 'User registered!')
-        this.router.navigate(['/home'])
+        
+        role === 'admin' ? this.router.navigate(['/dashboard']) : this.router.navigate(['/home'])
       })
       .catch((err) => {
         this.loading = false
